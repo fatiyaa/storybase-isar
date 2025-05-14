@@ -70,10 +70,11 @@ class HomePage extends StatelessWidget {
       context: context,
       builder:
           (context) => StoryAddForm(
-            addStory: (String title, String story, String imageUrl) {
+            addStory: (String title, String story, String city, String imageUrl) {
               DB.instance.addStory(
                 title,
                 story,
+                city,
                 imageUrl,
               ); // Add story to the database
             },
@@ -108,8 +109,8 @@ class Storys extends StatelessWidget {
                 deleteStory:
                     (int id) => DB.instance.deleteStory(storys[index].id),
                 editStory:
-                    (String title, String desc, String url) => DB.instance
-                        .updateStory(storys[index].id, title, desc, url),
+                    (String title, String desc, String city, String url) => DB.instance
+                        .updateStory(storys[index].id, title, desc, city, url),
               );
             },
             separatorBuilder: (context, index) {

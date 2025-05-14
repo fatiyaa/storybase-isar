@@ -17,18 +17,23 @@ const StorySchema = CollectionSchema(
   name: r'Story',
   id: -8212254866232005334,
   properties: {
-    r'imageUrl': PropertySchema(
+    r'city': PropertySchema(
       id: 0,
+      name: r'city',
+      type: IsarType.string,
+    ),
+    r'imageUrl': PropertySchema(
+      id: 1,
       name: r'imageUrl',
       type: IsarType.string,
     ),
     r'story': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'story',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'title',
       type: IsarType.string,
     )
@@ -61,6 +66,7 @@ int _storyEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.city.length * 3;
   bytesCount += 3 + object.imageUrl.length * 3;
   bytesCount += 3 + object.story.length * 3;
   bytesCount += 3 + object.title.length * 3;
@@ -73,9 +79,10 @@ void _storySerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.imageUrl);
-  writer.writeString(offsets[1], object.story);
-  writer.writeString(offsets[2], object.title);
+  writer.writeString(offsets[0], object.city);
+  writer.writeString(offsets[1], object.imageUrl);
+  writer.writeString(offsets[2], object.story);
+  writer.writeString(offsets[3], object.title);
 }
 
 Story _storyDeserialize(
@@ -85,10 +92,11 @@ Story _storyDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Story(
+    city: reader.readString(offsets[0]),
     id: id,
-    imageUrl: reader.readString(offsets[0]),
-    story: reader.readString(offsets[1]),
-    title: reader.readString(offsets[2]),
+    imageUrl: reader.readString(offsets[1]),
+    story: reader.readString(offsets[2]),
+    title: reader.readString(offsets[3]),
   );
   return object;
 }
@@ -105,6 +113,8 @@ P _storyDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -200,6 +210,134 @@ extension StoryQueryWhere on QueryBuilder<Story, Story, QWhereClause> {
 }
 
 extension StoryQueryFilter on QueryBuilder<Story, Story, QFilterCondition> {
+  QueryBuilder<Story, Story, QAfterFilterCondition> cityEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'city',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterFilterCondition> cityGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'city',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterFilterCondition> cityLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'city',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterFilterCondition> cityBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'city',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterFilterCondition> cityStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'city',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterFilterCondition> cityEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'city',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterFilterCondition> cityContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'city',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterFilterCondition> cityMatches(String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'city',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterFilterCondition> cityIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'city',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterFilterCondition> cityIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'city',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Story, Story, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -700,6 +838,18 @@ extension StoryQueryLinks on QueryBuilder<Story, Story, QFilterCondition> {
 }
 
 extension StoryQuerySortBy on QueryBuilder<Story, Story, QSortBy> {
+  QueryBuilder<Story, Story, QAfterSortBy> sortByCity() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'city', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterSortBy> sortByCityDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'city', Sort.desc);
+    });
+  }
+
   QueryBuilder<Story, Story, QAfterSortBy> sortByImageUrl() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'imageUrl', Sort.asc);
@@ -738,6 +888,18 @@ extension StoryQuerySortBy on QueryBuilder<Story, Story, QSortBy> {
 }
 
 extension StoryQuerySortThenBy on QueryBuilder<Story, Story, QSortThenBy> {
+  QueryBuilder<Story, Story, QAfterSortBy> thenByCity() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'city', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Story, Story, QAfterSortBy> thenByCityDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'city', Sort.desc);
+    });
+  }
+
   QueryBuilder<Story, Story, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -788,6 +950,13 @@ extension StoryQuerySortThenBy on QueryBuilder<Story, Story, QSortThenBy> {
 }
 
 extension StoryQueryWhereDistinct on QueryBuilder<Story, Story, QDistinct> {
+  QueryBuilder<Story, Story, QDistinct> distinctByCity(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'city', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Story, Story, QDistinct> distinctByImageUrl(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -814,6 +983,12 @@ extension StoryQueryProperty on QueryBuilder<Story, Story, QQueryProperty> {
   QueryBuilder<Story, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<Story, String, QQueryOperations> cityProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'city');
     });
   }
 

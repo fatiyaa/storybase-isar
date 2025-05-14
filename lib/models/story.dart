@@ -8,6 +8,7 @@ class Story {
   Id id;
   final String title;
   final String story;
+  final String city;
   final String imageUrl;
 
   @Backlink(to: 'stories')
@@ -17,6 +18,7 @@ class Story {
     this.id = Isar.autoIncrement,
     required this.title,
     required this.story,
+    required this.city,
     required this.imageUrl,
   });
 }

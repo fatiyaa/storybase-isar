@@ -74,6 +74,14 @@ class StoryDetailPage extends StatelessWidget {
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Text(
+                        ('${story.city}, '),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: Colors.black,
+                        ),
+                      ),
                       // Using StreamBuilder to listen to authors stream
                       StreamBuilder<List<Author>>(
                         stream: DB.instance.getAuthorsStreambyStoryId(

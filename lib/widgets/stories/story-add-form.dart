@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StoryAddForm extends StatefulWidget {
-  final Function(String, String, String) addStory;
+  final Function(String, String, String, String) addStory;
   const StoryAddForm({super.key, required this.addStory});
 
   @override
@@ -11,6 +11,7 @@ class StoryAddForm extends StatefulWidget {
 class StoryAddFormState extends State<StoryAddForm> {
   String title = '';
   String story = '';
+  String city = '';
   String imageUrl = '';
 
   @override
@@ -27,10 +28,14 @@ class StoryAddFormState extends State<StoryAddForm> {
           TextField(
             onChanged: (value) => setState(() => story = value),
             decoration: InputDecoration(labelText: 'Your Story'),
-            maxLines: 5, // Initially show 5 lines
+            maxLines: 4, // Initially show 5 lines
             keyboardType: TextInputType.multiline,
             style: TextStyle(fontSize: 16),
             scrollPadding: EdgeInsets.all(20),
+          ),
+          TextField(
+            onChanged: (value) => setState(() => city = value),
+            decoration: InputDecoration(labelText: 'City'),
           ),
           TextField(
             onChanged: (value) => setState(() => imageUrl = value),
@@ -42,7 +47,7 @@ class StoryAddFormState extends State<StoryAddForm> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    widget.addStory(title, story, imageUrl);
+                    widget.addStory(title, story, city, imageUrl);
                     Navigator.pop(context); // Close the dialog
                   },
                   child: Text('Add Story'),

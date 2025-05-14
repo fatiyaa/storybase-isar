@@ -9,7 +9,7 @@ import 'package:after_ets/widgets/stories/story-edit-form.dart';
 class StoryCard extends StatelessWidget {
   final Story story;
   final Function(int) deleteStory;
-  final Function(String, String, String) editStory;
+  final Function(String, String, String, String) editStory;
 
   const StoryCard({
     super.key,

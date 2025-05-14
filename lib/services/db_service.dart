@@ -31,9 +31,9 @@ class DB {
     yield* isar.storys.where().watch(fireImmediately: true);
   }
 
-  Future<void> addStory(String title, String desc, String imageUrl) async {
+  Future<void> addStory(String title, String desc, String city, String imageUrl) async {
     final isar = await db;
-    Story story = Story(title: title, story: desc, imageUrl: imageUrl);
+    Story story = Story(title: title, story: desc, city: city, imageUrl: imageUrl);
     await isar.writeTxn(() => isar.storys.put(story));
   }
 
@@ -42,14 +42,9 @@ class DB {
     await isar.writeTxn(() => isar.storys.delete(id));
   }
 
-  Future<void> updateStory(
-    int id,
-    String title,
-    String desc,
-    String imageUrl,
-  ) async {
+  Future<void> updateStory(int id, String title, String desc, String city, String imageUrl) async {
     final isar = await db;
-    Story story = Story(id: id, title: title, story: desc, imageUrl: imageUrl);
+    Story story = Story(id: id, title: title, story: desc, city:city, imageUrl: imageUrl);
     await isar.writeTxn(() => isar.storys.put(story));
   }
 

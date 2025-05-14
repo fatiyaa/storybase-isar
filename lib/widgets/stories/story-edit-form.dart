@@ -4,7 +4,7 @@ import '../../models/story.dart';
 
 class StoryEditForm extends StatefulWidget {
   final Story oldStory;
-  final Function(String, String, String) editStory;
+  final Function(String, String, String, String) editStory;
   const StoryEditForm({
     super.key,
     required this.editStory,
@@ -18,6 +18,7 @@ class StoryEditForm extends StatefulWidget {
 class StoryEditFormState extends State<StoryEditForm> {
   late TextEditingController titleController;
   late TextEditingController storyController;
+  late TextEditingController cityController;
   late TextEditingController imageUrlController;
 
   @override
@@ -25,6 +26,7 @@ class StoryEditFormState extends State<StoryEditForm> {
     super.initState();
     titleController = TextEditingController(text: widget.oldStory.title);
     storyController = TextEditingController(text: widget.oldStory.story);
+    cityController = TextEditingController(text: widget.oldStory.city);
     imageUrlController = TextEditingController(text: widget.oldStory.imageUrl);
   }
 
@@ -32,6 +34,7 @@ class StoryEditFormState extends State<StoryEditForm> {
     setState(() {
       titleController.text = widget.oldStory.title;
       storyController.text = widget.oldStory.story;
+      cityController.text = widget.oldStory.city;
       imageUrlController.text = widget.oldStory.imageUrl;
     });
     showDialog(
@@ -53,10 +56,14 @@ class StoryEditFormState extends State<StoryEditForm> {
               TextField(
                 controller: storyController,
                 decoration: InputDecoration(labelText: 'Your Story'),
-                maxLines: 5, // Initially show 5 lines
+                maxLines: 4, // Initially show 5 lines
                 keyboardType: TextInputType.multiline,
                 style: TextStyle(fontSize: 16),
                 scrollPadding: EdgeInsets.all(20),
+              ),
+              TextField(
+                controller: cityController,
+                decoration: InputDecoration(labelText: 'City'),
               ),
               TextField(
                 controller: imageUrlController,
@@ -71,6 +78,7 @@ class StoryEditFormState extends State<StoryEditForm> {
                         widget.editStory(
                           titleController.text,
                           storyController.text,
+                          cityController.text,
                           imageUrlController.text,
                         );
                         Navigator.pop(context);
